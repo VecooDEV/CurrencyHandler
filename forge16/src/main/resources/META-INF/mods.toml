@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="currencyhandler"
+version="1.0.0"
+displayName="CurrencyHandler"
+authors="Vecoo"
+description="Adds various currencies."
+
+[[dependencies.currencyhandler]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.currencyhandler]]
+modId="forge"
+mandatory=true
+versionRange="[36,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.currencyhandler]]
+modId="extralib"
+mandatory=true
+versionRange="[1,)"
+ordering="NONE"
+side="BOTH"

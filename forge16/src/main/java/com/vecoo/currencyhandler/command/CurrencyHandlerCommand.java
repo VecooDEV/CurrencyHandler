@@ -146,7 +146,7 @@ public class CurrencyHandlerCommand {
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getPlayerBalance()
                 .replace("%player%", target)
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(currency))
-                .replace("%amount%", String.valueOf(CurrencyFactory.getCurrency(UtilPlayer.getUUID(target), currency)))), false);
+                .replace("%amount%", Utils.getFormattedFloat(CurrencyFactory.getCurrency(UtilPlayer.getUUID(target), currency)))), false);
         return 1;
     }
 

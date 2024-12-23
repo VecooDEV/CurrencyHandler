@@ -62,6 +62,6 @@ public class CurrencyFactory {
         CurrencyFactoryEvent event = new CurrencyFactoryEvent.Take(source, playerUUID, currency, amount);
         MinecraftForge.EVENT_BUS.post(event);
 
-        setCurrency(source, event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount());
+        setCurrency(event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount());
     }
 }

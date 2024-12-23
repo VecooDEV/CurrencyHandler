@@ -17,12 +17,12 @@ public class CurrencyHandlerListener {
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), false);
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
 
         UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -32,12 +32,12 @@ public class CurrencyHandlerListener {
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getGiveBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), false);
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
 
         UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getGiveBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
@@ -47,11 +47,11 @@ public class CurrencyHandlerListener {
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), false);
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
 
         UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", String.valueOf(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
     }
 }

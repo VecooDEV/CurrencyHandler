@@ -10,7 +10,7 @@ subprojects {
     }
 
     jar {
-        setArchiveBaseName("C-${rootProject.name}")
+        setArchiveBaseName("${rootProject.name}")
     }
 
     repositories {
@@ -28,7 +28,7 @@ subprojects {
             include '**/*.jar'
         }
         group "build"
-        from("./build/libs/C-${rootProject.name}-${version}.jar")
+        from("./build/libs/${rootProject.name}-${version}.jar")
         into('../release/')
         include '*.jar'
         rename { String filename ->

@@ -1,7 +1,7 @@
 package com.vecoo.currencyhandler.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.vecoo.currencyhandler.CurrencyHandler;
 import com.vecoo.currencyhandler.api.event.CurrencyReloadEvent;
@@ -60,14 +60,14 @@ public class CurrencyHandlerCommand {
                                             }
                                             return builder.buildFuture();
                                         })
-                                        .then(Commands.argument("amount", FloatArgumentType.floatArg(0))
+                                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                                 .suggests((s, builder) -> {
                                                     for (int amount : Arrays.asList(100, 500, 1000)) {
                                                         builder.suggest(amount);
                                                     }
                                                     return builder.buildFuture();
                                                 })
-                                                .executes(e -> executeSet(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), FloatArgumentType.getFloat(e, "amount")))))))
+                                                .executes(e -> executeSet(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), IntegerArgumentType.getInteger(e, "amount")))))))
                 .then(Commands.literal("give")
                         .then(Commands.argument("player", StringArgumentType.string())
                                 .suggests((s, builder) -> {
@@ -87,14 +87,14 @@ public class CurrencyHandlerCommand {
                                             }
                                             return builder.buildFuture();
                                         })
-                                        .then(Commands.argument("amount", FloatArgumentType.floatArg(0))
+                                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                                 .suggests((s, builder) -> {
                                                     for (int amount : Arrays.asList(100, 500, 1000)) {
                                                         builder.suggest(amount);
                                                     }
                                                     return builder.buildFuture();
                                                 })
-                                                .executes(e -> executeGive(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), FloatArgumentType.getFloat(e, "amount")))))))
+                                                .executes(e -> executeGive(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), IntegerArgumentType.getInteger(e, "amount")))))))
                 .then(Commands.literal("take")
                         .then(Commands.argument("player", StringArgumentType.string())
                                 .suggests((s, builder) -> {
@@ -114,14 +114,14 @@ public class CurrencyHandlerCommand {
                                             }
                                             return builder.buildFuture();
                                         })
-                                        .then(Commands.argument("amount", FloatArgumentType.floatArg(0))
+                                        .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                                 .suggests((s, builder) -> {
                                                     for (int money : Arrays.asList(100, 500, 1000)) {
                                                         builder.suggest(money);
                                                     }
                                                     return builder.buildFuture();
                                                 })
-                                                .executes(e -> executeTake(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), FloatArgumentType.getFloat(e, "amount")))))))
+                                                .executes(e -> executeTake(e.getSource(), StringArgumentType.getString(e, "currency"), StringArgumentType.getString(e, "player"), IntegerArgumentType.getInteger(e, "amount")))))))
                 .then(Commands.literal("reload")
                         .executes(e -> executeReload(e.getSource()))));
     }
@@ -146,11 +146,11 @@ public class CurrencyHandlerCommand {
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getPlayerBalance()
                 .replace("%player%", target)
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(currency))
-                .replace("%amount%", Utils.getFormattedFloat(CurrencyFactory.getCurrency(UtilPlayer.getUUID(target), currency)))), false);
+                .replace("%amount%", String.valueOf(CurrencyFactory.getCurrency(UtilPlayer.getUUID(target), currency)))), false);
         return 1;
     }
 
-    private static int executeSet(CommandSource source, String currency, String target, float amount) {
+    private static int executeSet(CommandSource source, String currency, String target, int amount) {
         if (!UtilPlayer.hasUUID(target)) {
             source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getPlayerNotFound()
                     .replace("%player%", target)), false);
@@ -171,7 +171,7 @@ public class CurrencyHandlerCommand {
         return 1;
     }
 
-    private static int executeGive(CommandSource source, String currency, String target, float amount) {
+    private static int executeGive(CommandSource source, String currency, String target, int amount) {
         if (!UtilPlayer.hasUUID(target)) {
             source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getPlayerNotFound()
                     .replace("%player%", target)), false);
@@ -192,7 +192,7 @@ public class CurrencyHandlerCommand {
         return 1;
     }
 
-    private static int executeTake(CommandSource source, String currency, String target, float amount) {
+    private static int executeTake(CommandSource source, String currency, String target, int amount) {
         if (!UtilPlayer.hasUUID(target)) {
             source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getPlayerNotFound()
                     .replace("%player%", target)), false);

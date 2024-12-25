@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public class PlayerStorage {
     private final UUID uuid;
-    private final HashMap<String, Float> currencyMap;
+    private final HashMap<String, Integer> currencyMap;
 
-    public PlayerStorage(UUID playerUUID, HashMap<String, Float> currencyMap) {
+    public PlayerStorage(UUID playerUUID, HashMap<String, Integer> currencyMap) {
         this.uuid = playerUUID;
         this.currencyMap = currencyMap;
         CurrencyHandler.getInstance().getPlayerProvider().updatePlayerStorage(this);
@@ -19,7 +19,7 @@ public class PlayerStorage {
         return this.uuid;
     }
 
-    public float getCurrency(String currency) {
+    public int getCurrency(String currency) {
         if (this.currencyMap.get(currency) == null) {
             CurrencyHandler.getLogger().error("[CurrencyHandler] An attempt was made to use a non-existent currency. Please register a currency to use it. Delete old data player for other currency.");
             return 0;
@@ -28,14 +28,13 @@ public class PlayerStorage {
         return this.currencyMap.get(currency);
     }
 
-    public boolean setCurrency(String currency, float amount) {
+    public void setCurrency(String currency, int amount) {
         if (this.currencyMap.get(currency) == null) {
             CurrencyHandler.getLogger().error("[CurrencyHandler] An attempt was made to use a non-existent currency. Please register a currency to use it. Delete old data player for other currency.");
-            return false;
+            return;
         }
 
         this.currencyMap.put(currency, amount);
         CurrencyHandler.getInstance().getPlayerProvider().updatePlayerStorage(this);
-        return true;
     }
 }

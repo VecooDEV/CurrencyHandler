@@ -10,9 +10,9 @@ public class CurrencyFactoryEvent extends Event {
     private String source;
     private UUID playerUuid;
     private String currency;
-    private float amount;
+    private int amount;
 
-    public CurrencyFactoryEvent(String source, UUID playerUuid, String currency, float amount) {
+    public CurrencyFactoryEvent(String source, UUID playerUuid, String currency, int amount) {
         this.source = source;
         this.playerUuid = playerUuid;
         this.currency = currency;
@@ -31,7 +31,7 @@ public class CurrencyFactoryEvent extends Event {
         return this.currency;
     }
 
-    public float getAmount() {
+    public int getAmount() {
         return this.amount;
     }
 
@@ -47,27 +47,27 @@ public class CurrencyFactoryEvent extends Event {
         this.currency = currency;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
     @Cancelable
     public static class Set extends CurrencyFactoryEvent {
-        public Set(String source, UUID playerUuid, String currency, float amount) {
+        public Set(String source, UUID playerUuid, String currency, int amount) {
             super(source, playerUuid, currency, amount);
         }
     }
 
     @Cancelable
     public static class Give extends CurrencyFactoryEvent {
-        public Give(String source, UUID playerUuid, String currency, float amount) {
+        public Give(String source, UUID playerUuid, String currency, int amount) {
             super(source, playerUuid, currency, amount);
         }
     }
 
     @Cancelable
     public static class Take extends CurrencyFactoryEvent {
-        public Take(String source, UUID playerUuid, String currency, float amount) {
+        public Take(String source, UUID playerUuid, String currency, int amount) {
             super(source, playerUuid, currency, amount);
         }
     }

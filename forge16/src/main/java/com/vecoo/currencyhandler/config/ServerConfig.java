@@ -3,29 +3,41 @@ package com.vecoo.currencyhandler.config;
 import com.vecoo.currencyhandler.CurrencyHandler;
 import com.vecoo.extralib.gson.UtilGson;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ServerConfig {
-    private HashMap<String, Float> currencyMap;
-    private HashMap<String, Float> currencyPermanentMap;
+    private List<String> currenciesBonus = Arrays.asList("money", "bucks");
+    private HashMap<String, Integer> currencyMap;
+    private HashMap<String, Integer> currencyPermanentMap;
+    private List<String> permissionCommisionList = Arrays.asList("minecraft.attribute.bonus.5", "minecraft.attribute.bonus.10", "minecraft.attribute.bonus.15");
 
     public ServerConfig() {
         this.currencyMap = new HashMap<>();
         this.currencyPermanentMap = new HashMap<>();
 
-        this.currencyMap.put("money", 0F);
-        this.currencyMap.put("tokens", 0F);
-        this.currencyMap.put("points", 0F);
-        this.currencyPermanentMap.put("bucks", 0F);
+        this.currencyMap.put("money", 0);
+        this.currencyMap.put("tokens", 0);
+        this.currencyMap.put("points", 0);
+        this.currencyPermanentMap.put("bucks", 0);
     }
 
-    public HashMap<String, Float> getCurrencyMap() {
+    public List<String> getCurrenciesBonus() {
+        return this.currenciesBonus;
+    }
+
+    public HashMap<String, Integer> getCurrencyMap() {
         return this.currencyMap;
     }
 
-    public HashMap<String, Float> getCurrencyPermanentMap() {
+    public HashMap<String, Integer> getCurrencyPermanentMap() {
         return this.currencyPermanentMap;
+    }
+
+    public List<String> getPermissionCommisionList() {
+        return this.permissionCommisionList;
     }
 
     private void write() {
@@ -39,6 +51,8 @@ public class ServerConfig {
 
                 this.currencyMap = config.getCurrencyMap();
                 this.currencyPermanentMap = config.getCurrencyPermanentMap();
+                this.permissionCommisionList = config.getPermissionCommisionList();
+                this.currenciesBonus = config.getCurrenciesBonus();
             });
             if (!future.join()) {
                 write();

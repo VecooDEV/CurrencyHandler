@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public class PlayerStoragePermanent {
     private final UUID uuid;
-    private final HashMap<String, Float> currencyPermanentMap;
+    private final HashMap<String, Integer> currencyPermanentMap;
 
-    public PlayerStoragePermanent(UUID playerUUID, HashMap<String, Float> currencyPermanentMap) {
+    public PlayerStoragePermanent(UUID playerUUID, HashMap<String, Integer> currencyPermanentMap) {
         this.uuid = playerUUID;
         this.currencyPermanentMap = currencyPermanentMap;
         CurrencyHandler.getInstance().getPlayerProvider().updatePlayerStorage(this);
@@ -19,7 +19,7 @@ public class PlayerStoragePermanent {
         return this.uuid;
     }
 
-    public float getCurrencyPermanent(String currencyPermanent) {
+    public int getCurrencyPermanent(String currencyPermanent) {
         if (this.currencyPermanentMap.get(currencyPermanent) == null) {
             CurrencyHandler.getLogger().error("[CurrencyHandler] An attempt was made to use a non-existent currency. Please register a currency to use it. Delete old data player for other currency.");
             return 0;
@@ -28,14 +28,13 @@ public class PlayerStoragePermanent {
         return this.currencyPermanentMap.get(currencyPermanent);
     }
 
-    public boolean setCurrencyPermanent(String currencyPermanent, float amount) {
+    public void setCurrencyPermanent(String currencyPermanent, int amount) {
         if (this.currencyPermanentMap.get(currencyPermanent) == null) {
             CurrencyHandler.getLogger().error("[CurrencyHandler] An attempt was made to use a non-existent currency. Please register a currency to use it. Delete old data player for other currency.");
-            return false;
+            return;
         }
 
         this.currencyPermanentMap.put(currencyPermanent, amount);
         CurrencyHandler.getInstance().getPlayerProvider().updatePlayerStorage(this);
-        return true;
     }
 }

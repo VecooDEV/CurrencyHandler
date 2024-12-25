@@ -3,6 +3,7 @@ This is a functional mod handler of any of your currencies.
 
 ## Features
 * Create any number of temporary and permanent currencies.
+* Supports bonuses for replenishment due to permission.
 * Convenient API for developers.
 
 ## Additional dependencies

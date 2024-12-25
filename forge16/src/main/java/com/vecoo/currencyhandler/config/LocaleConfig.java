@@ -12,15 +12,18 @@ public class LocaleConfig {
     private String playerBalance = "&e(!) Player %player% has %amount% %currency%.";
     private String setBalanceSource = "&e(!) Player %player%'s balance has been changed by %amount% %currency%.";
     private String setBalancePlayer = "&e(!) Your balance has been changed by %amount% %currency%.";
-    private String giveBalanceSource = "&e(!) Player %player%'s balance has been added by %amount% %currency%.";
-    private String giveBalancePlayer = "&e(!) Player %amount% %currency% have been added to your balance.";
+    private String giveBalanceSource = "&e(!) Player %player%'s balance has been added by %amount% %currency%. ";
+    private String giveBalancePlayer = "&e(!) %amount% %currency% have been added to your balance. ";
     private String takeBalanceSource = "&e(!) Player %player%'s balance has been subtracted by %amount% %currency%.";
-    private String takeBalancePlayer = "&e(!) Player %amount% %currency% have been subtracted from your balance.";
+    private String takeBalancePlayer = "&e(!) %amount% %currency% have been subtracted from your balance.";
     private String notBalanceSource = "&c(!) Player %player% does not have enough %currency% to take.";
     private String notBalancePlayer = "&c(!) You do not have enough %currency%.";
     private String playerNotFound = "&c(!) Player %player% not found.";
     private String notCurrency = "&c(!) Currency not found.";
     private String localeCurrency = "&c(!) Please update the localization for this currency.";
+
+    private String bonusMessageSource = "&eBonus player: %bonus%%.";
+    private String bonusMessagePlayer = "&eBonus: %bonus%%.";
 
     private HashMap<String, String> currencyName;
 
@@ -85,6 +88,14 @@ public class LocaleConfig {
         return this.localeCurrency;
     }
 
+    public String getBonusMessageSource() {
+        return this.bonusMessageSource;
+    }
+
+    public String getBonusMessagePlayer() {
+        return this.bonusMessagePlayer;
+    }
+
     public HashMap<String, String> getCurrencyName() {
         return this.currencyName;
     }
@@ -113,6 +124,8 @@ public class LocaleConfig {
                 this.notCurrency = config.getNotCurrency();
                 this.currencyName = config.getCurrencyName();
                 this.localeCurrency = config.getLocaleCurrency();
+                this.bonusMessageSource = config.getBonusMessageSource();
+                this.bonusMessagePlayer = config.getBonusMessagePlayer();
             });
             if (!future.join()) {
                 write();

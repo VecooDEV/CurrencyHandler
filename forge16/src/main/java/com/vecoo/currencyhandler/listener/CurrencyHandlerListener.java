@@ -6,52 +6,77 @@ import com.vecoo.currencyhandler.util.Utils;
 import com.vecoo.extralib.chat.UtilChat;
 import com.vecoo.extralib.player.UtilPlayer;
 import net.minecraft.command.CommandSource;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class CurrencyHandlerListener {
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactorySet(CurrencyFactoryEvent.Set event) {
-        CommandSource source = Utils.getSource(event.getSource());
+        CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
 
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
+                .replace("%amount%", String.valueOf(event.getAmount()))), false);
 
-        UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalancePlayer()
+        UtilPlayer.sendMessageUuid(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", String.valueOf(event.getAmount()))), CurrencyHandler.getInstance().getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactoryGive(CurrencyFactoryEvent.Give event) {
-        CommandSource source = Utils.getSource(event.getSource());
+        CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
+
+        for (String currency : CurrencyHandler.getInstance().getConfig().getCurrenciesBonus()) {
+            if (!Utils.getAllCurrency().contains(currency)) {
+                source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getNotCurrency()), false);
+                return;
+            }
+        }
+
+        int amount = event.getAmount();
+        StringTextComponent bonusMessageSource = new StringTextComponent("");
+        StringTextComponent bonusMessagePlayer = new StringTextComponent("");
+
+        int bonus = Utils.bonusGive(event.getPlayerUuid(), UtilPlayer.getPlayerName(event.getPlayerUuid()));
+
+        if (CurrencyHandler.getInstance().getConfig().getCurrenciesBonus().contains(event.getCurrency()) && bonus > 0) {
+            amount += amount * bonus / 100;
+
+            bonusMessageSource = UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getBonusMessageSource()
+                    .replace("%bonus%", String.valueOf(bonus)));
+            bonusMessagePlayer = UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getBonusMessagePlayer()
+                    .replace("%bonus%", String.valueOf(bonus)));
+
+            event.setAmount(amount);
+        }
 
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getGiveBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
+                .replace("%amount%", String.valueOf(amount))).append(bonusMessageSource), false);
 
-        UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getGiveBalancePlayer()
+        UtilPlayer.sendMessageUuid(event.getPlayerUuid(), (StringTextComponent) UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getGiveBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", String.valueOf(amount))).append(bonusMessagePlayer), CurrencyHandler.getInstance().getServer());
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactoryTake(CurrencyFactoryEvent.Take event) {
-        CommandSource source = Utils.getSource(event.getSource());
+        CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
 
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalanceSource()
                 .replace("%player%", UtilPlayer.getPlayerName(event.getPlayerUuid()))
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), false);
+                .replace("%amount%", String.valueOf(event.getAmount()))), false);
 
-        UtilPlayer.sendMessageOffline(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalancePlayer()
+        UtilPlayer.sendMessageUuid(event.getPlayerUuid(), UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalancePlayer()
                 .replace("%player%", source.getTextName())
                 .replace("%currency%", CurrencyHandler.getInstance().getLocale().getCurrencyName().get(event.getCurrency()))
-                .replace("%amount%", Utils.getFormattedFloat(event.getAmount()))), CurrencyHandler.getInstance().getServer());
+                .replace("%amount%", String.valueOf(event.getAmount()))), CurrencyHandler.getInstance().getServer());
     }
 }

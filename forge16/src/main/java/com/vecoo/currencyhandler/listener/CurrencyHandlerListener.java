@@ -10,9 +10,18 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CurrencyHandlerListener {
+    public static List<String> ignoreEvent = Arrays.asList("ExtraGTS", "ExtraEconomy", "ExtraShop", "Donate", "Other");
+
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactorySet(CurrencyFactoryEvent.Set event) {
+        if (ignoreEvent.contains(event.getSource())) {
+            return;
+        }
+
         CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
 
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getSetBalanceSource()
@@ -28,6 +37,10 @@ public class CurrencyHandlerListener {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactoryGive(CurrencyFactoryEvent.Give event) {
+        if (ignoreEvent.contains(event.getSource())) {
+            return;
+        }
+
         CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
 
         for (String currency : CurrencyHandler.getInstance().getConfig().getCurrenciesBonus()) {
@@ -67,6 +80,10 @@ public class CurrencyHandlerListener {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onCurrencyFactoryTake(CurrencyFactoryEvent.Take event) {
+        if (ignoreEvent.contains(event.getSource())) {
+            return;
+        }
+
         CommandSource source = UtilPlayer.getSource(event.getSource(), CurrencyHandler.getInstance().getServer());
 
         source.sendSuccess(UtilChat.formatMessage(CurrencyHandler.getInstance().getLocale().getTakeBalanceSource()

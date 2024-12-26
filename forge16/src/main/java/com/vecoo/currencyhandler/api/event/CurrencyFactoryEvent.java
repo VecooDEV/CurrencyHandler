@@ -71,4 +71,22 @@ public class CurrencyFactoryEvent extends Event {
             super(source, playerUuid, currency, amount);
         }
     }
+
+    @Cancelable
+    public static class Transfer extends CurrencyFactoryEvent {
+        private UUID targetUuid;
+
+        public Transfer(String source, UUID playerUuid, UUID targetUuid, String currency, int amount) {
+            super(source, playerUuid, currency, amount);
+            this.targetUuid = targetUuid;
+        }
+
+        public UUID getTargetUuid() {
+            return this.targetUuid;
+        }
+
+        public void setTargetUuid(UUID targetUuid) {
+            this.targetUuid = targetUuid;
+        }
+    }
 }

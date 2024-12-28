@@ -167,7 +167,7 @@ public class CurrencyHandlerCommand {
             return 0;
         }
 
-        CurrencyFactory.setCurrency(source.getTextName(), UtilPlayer.getUUID(target), currency, amount);
+        CurrencyFactory.setCurrency(source.getTextName(), UtilPlayer.getUUID(target), currency, amount, true);
         return 1;
     }
 
@@ -188,7 +188,7 @@ public class CurrencyHandlerCommand {
             return 0;
         }
 
-        CurrencyFactory.giveCurrency(source.getTextName(), UtilPlayer.getUUID(target), currency, amount);
+        CurrencyFactory.giveCurrency(source.getTextName(), UtilPlayer.getUUID(target), currency, amount, true);
         return 1;
     }
 
@@ -218,7 +218,7 @@ public class CurrencyHandlerCommand {
             return 0;
         }
 
-        CurrencyFactory.takeCurrency(source.getTextName(), targerUUID, currency, amount);
+        CurrencyFactory.takeCurrency(source.getTextName(), targerUUID, currency, amount, true);
         return 1;
     }
 

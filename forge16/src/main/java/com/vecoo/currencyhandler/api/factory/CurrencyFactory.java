@@ -30,18 +30,12 @@ public class CurrencyFactory {
         return CurrencyHandler.getInstance().getPlayerProvider().getPlayerStoragePermanent(playerUUID).getCurrencyPermanent(currency);
     }
 
-    public static void setCurrency(UUID playerUUID, String currency, int amount) {
-        if (!CurrencyHandler.getInstance().getConfig().getCurrencyPermanentMap().containsKey(currency)) {
-            CurrencyHandler.getInstance().getPlayerProvider().getPlayerStorage(playerUUID).setCurrency(currency, amount);
-            return;
-        }
-
-        CurrencyHandler.getInstance().getPlayerProvider().getPlayerStoragePermanent(playerUUID).setCurrencyPermanent(currency, amount);
-    }
-
-    public static void setCurrency(String source, UUID playerUUID, String currency, int amount) {
+    public static void setCurrency(String source, UUID playerUUID, String currency, int amount, boolean isEvent) {
         CurrencyFactoryEvent event = new CurrencyFactoryEvent.Set(source, playerUUID, currency, amount);
-        MinecraftForge.EVENT_BUS.post(event);
+
+        if (isEvent) {
+            MinecraftForge.EVENT_BUS.post(event);
+        }
 
         if (!CurrencyHandler.getInstance().getConfig().getCurrencyPermanentMap().containsKey(currency)) {
             CurrencyHandler.getInstance().getPlayerProvider().getPlayerStorage(event.getPlayerUuid()).setCurrency(event.getCurrency(), event.getAmount());
@@ -51,25 +45,34 @@ public class CurrencyFactory {
         CurrencyHandler.getInstance().getPlayerProvider().getPlayerStoragePermanent(event.getPlayerUuid()).setCurrencyPermanent(event.getCurrency(), event.getAmount());
     }
 
-    public static void giveCurrency(String source, UUID playerUUID, String currency, int amount) {
+    public static void giveCurrency(String source, UUID playerUUID, String currency, int amount, boolean isEvent) {
         CurrencyFactoryEvent event = new CurrencyFactoryEvent.Give(source, playerUUID, currency, amount);
-        MinecraftForge.EVENT_BUS.post(event);
 
-        setCurrency(event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) + event.getAmount());
+        if (isEvent) {
+            MinecraftForge.EVENT_BUS.post(event);
+        }
+
+        setCurrency(source, event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) + event.getAmount(), false);
     }
 
-    public static void takeCurrency(String source, UUID playerUUID, String currency, int amount) {
+    public static void takeCurrency(String source, UUID playerUUID, String currency, int amount, boolean isEvent) {
         CurrencyFactoryEvent event = new CurrencyFactoryEvent.Take(source, playerUUID, currency, amount);
-        MinecraftForge.EVENT_BUS.post(event);
 
-        setCurrency(event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount());
+        if (isEvent) {
+            MinecraftForge.EVENT_BUS.post(event);
+        }
+
+        setCurrency(source, event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount(), false);
     }
 
-    public static void transferCurrency(String source, UUID playerUUID, UUID targetUUID, String currency, int amount) {
+    public static void transferCurrency(String source, UUID playerUUID, UUID targetUUID, String currency, int amount, boolean isEvent) {
         CurrencyFactoryEvent.Transfer event = new CurrencyFactoryEvent.Transfer(source, playerUUID, targetUUID, currency, amount);
-        MinecraftForge.EVENT_BUS.post(event);
 
-        CurrencyFactory.setCurrency(event.getPlayerUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount());
-        CurrencyFactory.setCurrency(event.getTargetUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getTargetUuid(), event.getCurrency()) + event.getAmount());
+        if (isEvent) {
+            MinecraftForge.EVENT_BUS.post(event);
+        }
+
+        CurrencyFactory.setCurrency(source, event.getPlayerUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount(), false);
+        CurrencyFactory.setCurrency(source, event.getTargetUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getTargetUuid(), event.getCurrency()) + event.getAmount(), false);
     }
 }

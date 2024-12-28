@@ -63,7 +63,6 @@ public class CurrencyHandler {
         try {
             this.playerProvider = new PlayerProvider("/%directory%/storage/CurrencyHandler/players/", "/config/CurrencyHandler/storage/players/", this.server);
             this.playerProvider.init();
-            this.playerProvider.initPermanent();
         } catch (Exception e) {
             LOGGER.error("[CurrencyHandler] Error load storage.");
         }

@@ -78,8 +78,9 @@ public class PlayerProvider {
 
     public void init() {
         String[] list = UtilGson.checkForDirectory(filePath).list();
+        String[] listPermanent = UtilGson.checkForDirectory(filePathPermanent).list();
 
-        if (list == null) {
+        if (list == null || listPermanent == null) {
             return;
         }
 
@@ -89,16 +90,8 @@ public class PlayerProvider {
                 this.storageMap.put(player.getUuid(), player);
             });
         }
-    }
 
-    public void initPermanent() {
-        String[] list = UtilGson.checkForDirectory(filePathPermanent).list();
-
-        if (list == null) {
-            return;
-        }
-
-        for (String file : list) {
+        for (String file : listPermanent) {
             UtilGson.readFileAsync(filePathPermanent, file, el -> {
                 PlayerStoragePermanent playerPermanent = UtilGson.newGson().fromJson(el, PlayerStoragePermanent.class);
                 this.storagePermanentMap.put(playerPermanent.getUuid(), playerPermanent);

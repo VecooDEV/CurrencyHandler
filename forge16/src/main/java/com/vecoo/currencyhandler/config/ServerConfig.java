@@ -12,7 +12,7 @@ public class ServerConfig {
     private List<String> currenciesBonus = Arrays.asList("money", "bucks");
     private HashMap<String, Integer> currencyMap;
     private HashMap<String, Integer> currencyPermanentMap;
-    private List<String> permissionCommisionList = Arrays.asList("minecraft.attribute.bonus.5", "minecraft.attribute.bonus.10", "minecraft.attribute.bonus.15");
+    private List<String> permissionBonusList = Arrays.asList("currencyhandler.attribute.bonus.5", "currencyhandler.attribute.bonus.10", "currencyhandler.attribute.bonus.15");
 
     public ServerConfig() {
         this.currencyMap = new HashMap<>();
@@ -36,8 +36,8 @@ public class ServerConfig {
         return this.currencyPermanentMap;
     }
 
-    public List<String> getPermissionCommisionList() {
-        return this.permissionCommisionList;
+    public List<String> getPermissionBonusList() {
+        return this.permissionBonusList;
     }
 
     private void write() {
@@ -51,7 +51,7 @@ public class ServerConfig {
 
                 this.currencyMap = config.getCurrencyMap();
                 this.currencyPermanentMap = config.getCurrencyPermanentMap();
-                this.permissionCommisionList = config.getPermissionCommisionList();
+                this.permissionBonusList = config.getPermissionBonusList();
                 this.currenciesBonus = config.getCurrenciesBonus();
             });
             if (!future.join()) {

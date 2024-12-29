@@ -22,7 +22,7 @@ public class Utils {
     public static int bonusGive(UUID playerUuid, String playerName) {
         int bonus = 0;
 
-        for (String permission : CurrencyHandler.getInstance().getConfig().getPermissionCommisionList()) {
+        for (String permission : CurrencyHandler.getInstance().getConfig().getPermissionBonusList()) {
             if (PermissionAPI.hasPermission(new GameProfile(playerUuid, playerName), permission, new Context())) {
                 bonus = Math.max(bonus, Integer.parseInt(permission.substring(permission.lastIndexOf('.') + 1)));
             }

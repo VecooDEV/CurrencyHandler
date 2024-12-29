@@ -65,14 +65,14 @@ public class CurrencyFactory {
         setCurrency(source, event.getPlayerUuid(), event.getCurrency(), getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount(), false);
     }
 
-    public static void transferCurrency(String source, UUID playerUUID, UUID targetUUID, String currency, int playerAmount, int targetAmount, boolean isEvent) {
-        CurrencyFactoryEvent.Transfer event = new CurrencyFactoryEvent.Transfer(source, playerUUID, targetUUID, currency, playerAmount, targetAmount);
+    public static void transferCurrency(String source, UUID playerUUID, UUID targetUUID, String currency, int amount, boolean isEvent) {
+        CurrencyFactoryEvent.Transfer event = new CurrencyFactoryEvent.Transfer(source, playerUUID, targetUUID, currency, amount);
 
         if (isEvent) {
             MinecraftForge.EVENT_BUS.post(event);
         }
 
         CurrencyFactory.setCurrency(source, event.getPlayerUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getPlayerUuid(), event.getCurrency()) - event.getAmount(), false);
-        CurrencyFactory.setCurrency(source, event.getTargetUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getTargetUuid(), event.getCurrency()) + event.getTargetAmount(), false);
+        CurrencyFactory.setCurrency(source, event.getTargetUuid(), event.getCurrency(), CurrencyFactory.getCurrency(event.getTargetUuid(), event.getCurrency()) + event.getAmount(), false);
     }
 }

@@ -1,9 +1,7 @@
 package com.vecoo.currencyhandler.util;
 
-import com.mojang.authlib.GameProfile;
 import com.vecoo.currencyhandler.CurrencyHandler;
-import net.minecraftforge.server.permission.PermissionAPI;
-import net.minecraftforge.server.permission.context.Context;
+import com.vecoo.extralib.permission.UtilPermission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class Utils {
         int bonus = 0;
 
         for (String permission : CurrencyHandler.getInstance().getConfig().getPermissionBonusList()) {
-            if (PermissionAPI.hasPermission(new GameProfile(playerUuid, playerName), permission, new Context())) {
+            if (UtilPermission.hasPermission(playerUuid, playerName, permission)) {
                 bonus = Math.max(bonus, Integer.parseInt(permission.substring(permission.lastIndexOf('.') + 1)));
             }
         }

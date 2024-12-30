@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'idea'
 
     group = 'com.vecoo.currencyhandler'
-    version = '1.1.6'
+    version = '1.1.7'
 
     ext {
         forgeVersion = "none"
